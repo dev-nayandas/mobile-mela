@@ -13,6 +13,12 @@ const searchMobile = () => {
 //searchMobile()
 const displaySearchResult = data => {
     const searchResult = document.getElementById('search-result')
+    searchResult.textContent = '';
+    if(data.length == 0){
+        const notify =document.getElementById('notification')
+        notify.style.display ='block'
+        console.log('Phone not found')
+    }
     data.forEach(datum =>{
         console.log(datum)
         const div = document.createElement('div')
@@ -23,7 +29,7 @@ const displaySearchResult = data => {
         <div class="card-body">
           <h5 class="card-title">${datum.phone_name}</h5>
           <p class="card-text"> Brand Name: ${datum.brand}</p>
-          <a class="bg-info p-2 text-white" href="">Details</a>
+          <a onclick="loadPhoneDetails()" class="bg-info p-2 text-white" href="#">Details</a>
         </div>
       </div>
         `;
@@ -31,3 +37,4 @@ const displaySearchResult = data => {
     })
     //console.log(data)
 }
+
