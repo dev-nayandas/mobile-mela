@@ -7,20 +7,27 @@ const searchMobile = () => {
     //console.log(url)
 
     fetch(url)
-    .then(res => res.json())
-    .then(data => displaySearchResult(data.data))
+        .then(res => res.json())
+        .then(data => displaySearchResult(data.data))
+
 }
 //searchMobile()
 const displaySearchResult = data => {
     const searchResult = document.getElementById('search-result')
+
+    // previous search result clean
     searchResult.textContent = '';
-    if(data.length == 0){
-        const notify =document.getElementById('notification')
-        notify.style.display ='block'
-        console.log('Phone not found')
+    // search error handle
+    if (data.length == 0) {
+        const notify = document.getElementById('notification');
+        notify.style.display = 'block';
+
+    } else {
+        const notify = document.getElementById('notification');
+        notify.style.display = 'none';
     }
-    data.forEach(datum =>{
-        console.log(datum)
+    data.forEach(datum => {
+        //console.log(datum)
         const div = document.createElement('div')
         div.classList.add('col')
         div.innerHTML = `
@@ -29,12 +36,20 @@ const displaySearchResult = data => {
         <div class="card-body">
           <h5 class="card-title">${datum.phone_name}</h5>
           <p class="card-text"> Brand Name: ${datum.brand}</p>
-          <a onclick="loadPhoneDetails()" class="bg-info p-2 text-white" href="#">Details</a>
+          <button onclick = "loadDetails('${datum.slug}')">Details</button>
+
         </div>
       </div>
         `;
         searchResult.appendChild(div)
     })
     //console.log(data)
+}
+const loadDetails = phoneId => {
+    //console.log(phoneId)
+    const url = `https://openapi.programming-hero.com/api/phone/${phoneId}`;
+    fetch(url)
+    .then(res => res.json())
+    .then(data => console.log(data))
 }
 
