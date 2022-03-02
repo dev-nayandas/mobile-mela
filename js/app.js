@@ -4,8 +4,6 @@ const searchMobile = () => {
     seacrhFiled.value = '';
 
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`
-    //console.log(url)
-
     fetch(url)
         .then(res => res.json())
         .then(data => displaySearchResult(data.data))
@@ -27,23 +25,22 @@ const displaySearchResult = data => {
         notify.style.display = 'none';
     }
     data.forEach(datum => {
-        //console.log(datum)
         const div = document.createElement('div')
         div.classList.add('col')
         div.innerHTML = `
         <div class="card h-100">
-        <img src="${datum.image}" class="card-img-top" alt="...">
-        <div class="card-body">
+        <img src="${datum.image}" class="card-img-top w-50 mx-auto" alt="...">
+        <div class="card-body mx-auto">
           <h5 class="card-title">${datum.phone_name}</h5>
           <p class="card-text"> Brand Name: ${datum.brand}</p>
-          <button onclick = "loadDetails('${datum.slug}')">Details</button>
-
+          <button class="btn btn-success" onclick = "loadDetails('${datum.slug}')">Details</button>
         </div>
       </div>
         `;
-        searchResult.appendChild(div)
+        searchResult.appendChild(div);
+        
     })
-    //console.log(data)
+ 
 }
 const loadDetails = phoneId => {
     //console.log(phoneId)
@@ -53,8 +50,11 @@ const loadDetails = phoneId => {
     .then(data => displayPhoneDetails(data.data))
 };
 const displayPhoneDetails = phone => {
-    console.log(phone)
+    //console.log(phone)
+
     const phoneDetails = document.getElementById('display-details')
+    phoneDetails.innerHTML = '';
+
     const div = document.createElement('div')
     div.classList.add('card')
     div.innerHTML = `
@@ -64,14 +64,17 @@ const displayPhoneDetails = phone => {
                 <p class="card-text">${phone.releaseDate}</p>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">An item</li>
-                <li class="list-group-item">A second item</li>
-                <li class="list-group-item">A third item</li>
+                <li class="list-group-item">Chipset:  ${phone.mainFeatures.chipSet}</li>
+                <li class="list-group-item">Display: ${phone.mainFeatures.displaySize}</li>
+                <li class="list-group-item">Memory :  ${phone.mainFeatures.memory}</li>
+                <li class="list-group-item"> Sensors :${phone.mainFeatures.sensors}</li>
+                <li class="list-group-item">Others : Bluetooth ${phone.others.Bluetooth}, GPS:  ${phone.others.GPS},  </li>
+    
             </ul>
             <div class="card-body">
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+                <a href="#" class="card-link">Buy Now</a>
             </div>
     `;
     phoneDetails.appendChild(div)
+    
 }
